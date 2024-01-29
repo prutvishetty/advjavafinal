@@ -1,0 +1,51 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page import = "java.io.*" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<%
+int num = Integer.parseInt(request.getParameter("num"));
+int temp = num;
+int ans = 0;
+while(temp>0){
+	int x= temp%10;
+	ans+=x*x*x;
+	temp = temp/10;
+}
+if(ans==num){
+	out.println("<p>"+ans+"is a armstrong number</p>");
+}else{
+	out.println("<p>"+ans+" is not a armstrong number</p>");
+}
+
+%>
+
+</body>
+</html>
+
+
+
+
+html:
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Armstrong Number</title>
+</head>
+<body>
+<form action="ques4b.jsp" method="post">
+<label for="num">Enter Number To Test : </label>
+<input id="num" name="num" type="number" required><br>
+
+<input type="submit" value="Check Here !">
+
+</form>
+</body>
+</html>
