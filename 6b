@@ -1,0 +1,86 @@
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+@WebServlet("/CalculateCGPA")
+public class CalculateCGPA extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+
+        try {
+            // Retrieve data from the HTML form
+            String usn = request.getParameter("usn");
+            String name = request.getParameter("name");
+            double sgpa1 = Double.parseDouble(request.getParameter("sgpa1"));
+            double sgpa2 = Double.parseDouble(request.getParameter("sgpa2"));
+            double sgpa3 = Double.parseDouble(request.getParameter("sgpa3"));
+            double sgpa4 = Double.parseDouble(request.getParameter("sgpa4"));
+
+            // Calculate CGPA
+            double cgpa = (sgpa1 + sgpa2 + sgpa3 + sgpa4) / 4;
+
+            // Display the result
+            out.println("<html>");
+            out.println("<head><title>CGPA Result</title></head>");
+            out.println("<body>");
+            out.println("<h2>CGPA Calculation Result</h2>");
+            out.println("<p>USN: " + usn + "</p>");
+            out.println("<p>Name: " + name + "</p>");
+            out.println("<p>CGPA: " + cgpa + "</p>");
+            out.println("</body>");
+            out.println("</html>");
+
+        } catch (NumberFormatException e) {
+            out.println("<html>");
+            out.println("<head><title>Error</title></head>");
+            out.println("<body>");
+            out.println("<h2>Error: Please enter valid SGPA values.</h2>");
+            out.println("</body>");
+            out.println("</html>");
+        } finally {
+            out.close();
+        }
+    }
+}
+
+HTML file:
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CGPA Calculator</title>
+</head>
+<body>
+    <h2>Enter Details for CGPA Calculation</h2>
+    <form action="CalculateCGPA" method="post">
+        <label for="usn">USN:</label>
+        <input type="text" name="usn" required><br>
+
+        <label for="name">Name:</label>
+        <input type="text" name="name" required><br>
+
+        <label for="sgpa1">SGPA Semester 1:</label>
+        <input type="text" name="sgpa1" required><br>
+
+        <label for="sgpa2">SGPA Semester 2:</label>
+        <input type="text" name="sgpa2" required><br>
+
+        <label for="sgpa3">SGPA Semester 3:</label>
+        <input type="text" name="sgpa3" required><br>
+
+        <label for="sgpa4">SGPA Semester 4:</label>
+        <input type="text" name="sgpa4" required><br>
+
+        <input type="submit" value="Calculate CGPA">
+    </form>
+</body>
+</html>
