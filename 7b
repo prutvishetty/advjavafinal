@@ -1,0 +1,28 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page import = "java.io.*" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<%
+int id = Integer.parseInt(request.getParameter("id"));
+String name = request.getParameter("name");
+int salary = Integer.parseInt(request.getParameter("salary"));
+int inc = (salary*20)/100;
+out.println("<p> employe ID :"+id+"</p>");
+out.println("<p> employe Name :"+name+"</p>");
+if(salary<20000){
+	salary = salary+inc;
+	out.println("<p> you updated salary is :"+salary+"</p>");
+	out.println("<p> salary increased by "+inc+"</p>");
+}else{
+	out.println("<p>your salary is not updated</p>");
+}
+%>
+
+</body>
+</html>
