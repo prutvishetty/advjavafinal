@@ -1,0 +1,106 @@
+import java.sql.*;
+import java.util.Scanner;
+public class sixth {
+	public static void main(String args[])
+	{
+		Connection conn=null;
+		PreparedStatement ps;
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Statement stmt;
+			
+			try {
+		conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/details","root","");
+			}
+			catch(Exception e)
+			{
+				try {
+				conn=DriverManager.getConnection("jdbc:mysql://localhost:3306","root","");
+				 stmt=conn.createStatement();
+			String createDB="create database details";
+			String createTB="create table emp(ssn varchar(10) primary key , name varchar(10), branch varchar(10), desg varchar(10))";
+				stmt.executeUpdate(createDB);
+				conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/details","root","");
+				 stmt=conn.createStatement();
+				stmt.executeUpdate(createTB);
+				}catch(Exception err)
+				{
+					err.printStackTrace();
+				}
+				
+			}
+			
+			
+			
+			String ins="insert into emp values(?,?,?,?);";
+			ps=conn.prepareStatement(ins);
+			Scanner sc=new Scanner(System.in);
+			do {
+				String id,name,year,head,num;
+				System.out.println("Insert the details");
+				id=sc.next();
+				name=sc.next();
+				year=sc.next();
+				head=sc.next();
+				
+				ps.setString(1, id);
+				ps.setString(2, name);
+				ps.setString(3, year);
+				ps.setString(4, head);
+				
+				int n=ps.executeUpdate();
+				if(n>0)
+				{
+					System.out.println("Inserted Successfully");
+				}
+				else
+				{
+					System.out.println("Not Successful");
+				}
+				System.out.println("Do u want to continue y/n ?");
+				head=sc.next();
+				if(head.charAt(0)=='n')
+					break;
+				
+				
+			}while(true);
+			
+			stmt=conn.createStatement();
+			String disp="update emp set desg='Asoc' where desg='Asst';";
+			int n=stmt.executeUpdate(disp);
+			
+			disp="select * from emp;";
+			ResultSet rs=stmt.executeQuery(disp);
+			String f1,f2,f3,f4;
+			while(rs.next())
+			{
+				 f1=rs.getString(1);
+				 f2=rs.getString(2);
+				 f3=rs.getString(3);
+				 f4=rs.getString(4);
+				System.out.println(f1+"		"+f2+"		"+f3+"		"+f4+"		");
+			}
+			
+			
+			
+			 
+		
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+}
