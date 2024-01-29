@@ -1,0 +1,98 @@
+import java.sql.*;
+import java.io.*;
+import java.util.*;
+public class third {
+	public static void main(String args[])
+	{
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Statement stmt;
+			PreparedStatement ps;
+			Connection conn;
+			try {
+				conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/movies","root","");
+				stmt=conn.createStatement();
+			}
+			catch(Exception e){
+				conn=DriverManager.getConnection("jdbc:mysql://localhost:3306","root","");
+				stmt=conn.createStatement();
+				String createDB="create database movies";
+				stmt.executeUpdate(createDB);
+				conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/movies","root","");
+				stmt=conn.createStatement();
+				String createTB="create table movie(id varchar(10) primary key, name varchar(10) , genre varchar(10),rating varchar(10), year varchar(10));";
+				stmt.executeUpdate(createTB);
+			}
+			/*String ins="insert into dept values(?,?,?,?,?);";
+			ps=conn.prepareStatement(ins);
+			Scanner sc=new Scanner(System.in);
+			do {
+				String id,name,year,head,num;
+				System.out.println("Insert the details");
+				id=sc.next();
+				name=sc.next();
+				year=sc.next();
+				head=sc.next();
+				num=sc.next();
+				ps.setString(1, id);
+				ps.setString(2, name);
+				ps.setString(3, year);
+				ps.setString(4, head);
+				ps.setString(5, num);
+				int n=ps.executeUpdate();
+				if(n>0)
+				{
+					System.out.println("Inserted Successfully");
+				}
+				else
+				{
+					System.out.println("Not Successful");
+				}
+				System.out.println("Do u want to continue y/n ?");
+				head=sc.next();
+				if(head.charAt(0)=='n')
+					break;
+				
+				
+			}while(true);
+			*/
+			String disp="select * from movie;";
+			ResultSet rs=stmt.executeQuery(disp);
+			while(rs.next())
+			{
+				String f1,f2,f3,f4,f5;
+				f1=rs.getString(1);
+				f2=rs.getString(2);
+				f3=rs.getString(3);
+				f4=rs.getString(4);
+				f5=rs.getString(5);
+				System.out.println(f1+"		"+f2+"		"+f3+"		"+f4+"		"+f5+"		");
+			}
+			disp="select * from movie;";
+			rs=stmt.executeQuery(disp);
+			int i=1;
+			while(rs.next())
+			{
+				if(i==5)
+				{
+				String f1,f2,f3,f4,f5;
+				f1=rs.getString(1);
+				f2=rs.getString(2);
+				f3=rs.getString(3);
+				f4=rs.getString(4);
+				f5=rs.getString(5);
+				System.out.println(f1+"		"+f2+"		"+f3+"		"+f4+"		"+f5+"		");
+				break;
+				} i++;
+			}
+			
+			
+			
+			
+			
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+}
