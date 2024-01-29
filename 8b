@@ -1,0 +1,65 @@
+CookieServlet
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+@WebServlet("/CookieServlet")
+public class CookieServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+
+        try {
+            // Create cookies
+            Cookie cookie1 = new Cookie("cookie1", "Value1");
+            Cookie cookie2 = new Cookie("cookie2", "Value2");
+            Cookie cookie3 = new Cookie("cookie3", "Value3");
+            Cookie cookie4 = new Cookie("cookie4", "Value4");
+
+            // Set expiry for first two cookies (1 minute)
+            cookie1.setMaxAge(60);
+            cookie2.setMaxAge(60);
+
+            // Add cookies to the response
+            response.addCookie(cookie1);
+            response.addCookie(cookie2);
+            response.addCookie(cookie3);
+            response.addCookie(cookie4);
+
+            // Display all cookies when the servlet is loaded for the first time
+            out.println("<html>");
+            out.println("<head><title>Cookie Example</title></head>");
+            out.println("<body>");
+            out.println("<h2>All Cookies:</h2>");
+            displayCookies(request, out);
+            out.println("<p>Refresh the page to see the remaining cookies.</p>");
+            out.println("</body>");
+            out.println("</html>");
+
+        } finally {
+            out.close();
+        }
+    }
+
+    private void displayCookies(HttpServletRequest request, PrintWriter out) {
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                out.println("<p>" + cookie.getName() + ": " + cookie.getValue() + "</p>");
+            }
+        } else {
+            out.println("<p>No cookies found.</p>");
+        }
+    }
+}
