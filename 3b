@@ -1,0 +1,80 @@
+SERVLET: 
+
+
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/voting")
+public class voting extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        // Read user information from the request
+    	response.setContentType("text/html");
+    	PrintWriter out = response.getWriter();
+    	
+        String userName = request.getParameter("userName");
+        String gender = request.getParameter("gender");
+        int age = Integer.parseInt(request.getParameter("age"));
+
+        // Determine voting eligibility
+        boolean isEligible = age >= 18;
+
+        // Print the eligibility result
+        out.println("<html><head><title>Voting Eligibility</title></head><body>");
+        out.println("<h2>Voting Eligibility</h2>");
+        out.println("<p>User Name: " + userName + "</p>");
+        out.println("<p>Gender: " + gender + "</p>");
+        out.println("<p>Age: " + age + "</p>");
+
+        if (isEligible) {
+            out.println("<p>You are eligible to vote.</p>");
+        } else {
+            out.println("<p>Sorry, you are not eligible to vote yet.</p>");
+        }
+
+        out.println("</body></html>");
+
+    }
+}
+
+
+
+
+
+
+HTML:
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voting Eligibility Form</title>
+</head>
+<body>
+    <h2>Voting Eligibility Form</h2>
+
+    <form action="voting" method="post">
+        <label for="userName">User Name:</label>
+        <input type="text" id="userName" name="userName" required><br>
+
+        <label for="gender">Gender:</label>
+        <input type="text" id="gender" name="gender" required><br>
+
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age" required><br>
+
+        <input type="submit" value="Check Eligibility">
+    </form>
+</body>
+</html>
