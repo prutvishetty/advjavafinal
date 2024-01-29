@@ -1,0 +1,84 @@
+JSP: NumberAnalysis.jsp
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="java.util.Set, java.util.HashSet" %>
+
+
+<html>
+<head>
+    <title>Number Analysis</title>
+</head>
+<body>
+
+<%
+    // Create an array to store the entered numbers
+    int[] numbers = new int[11];
+
+    // Read eleven numbers from the user and populate the array
+    for (int i = 0; i < 11; i++) {
+        numbers[i] = Integer.parseInt(request.getParameter("num" + (i + 1)));
+    }
+
+    // Calculate average
+    double sum = 0;
+    for (int num : numbers) {
+        sum += num;
+    }
+    double average = sum / 11.0;
+
+    // Find numbers below average
+    int belowAverageCount = 0;
+    for (int num : numbers) {
+        if (num < average) {
+            belowAverageCount++;
+        }
+    }
+
+    // Find duplicate numbers
+    Set<Integer> uniqueNumbers = new HashSet<>();
+    Set<Integer> duplicateNumbers = new HashSet<>();
+    for (int num : numbers) {
+        if (!uniqueNumbers.add(num)) {
+            duplicateNumbers.add(num);
+        }
+    }
+%>
+
+<h2>Number Analysis Results:</h2>
+<p>Average: <%= average %></p>
+<p>Numbers below average: <%= belowAverageCount %></p>
+<p>Duplicate numbers: <%= duplicateNumbers %></p>
+
+</body>
+</html>
+
+
+HTML file: 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Analysis Form</title>
+</head>
+<body>
+
+
+<form action="NumberAnalysis.jsp" method="post">
+Enter Number 1 : <input type="text" name="num1"><br>
+Enter Number 2 : <input type="text" name="num2"><br>
+Enter Number 3 : <input type="text" name="num3"><br>
+Enter Number 4 : <input type="text" name="num4"><br>
+Enter Number 5 : <input type="text" name="num5"><br>
+Enter Number 6 : <input type="text" name="num6"><br>
+Enter Number 7 : <input type="text" name="num7"><br>
+Enter Number 8 : <input type="text" name="num8"><br>
+Enter Number 9 : <input type="text" name="num9"><br>
+Enter Number 10 : <input type="text" name="num10"><br>
+Enter Number 11 : <input type="text" name="num11"><br>
+
+ <input type="submit" value="Submit">
+</form>
+<br>
+
+</body>
+</html>
